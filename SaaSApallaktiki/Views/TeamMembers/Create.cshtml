@@ -4,7 +4,8 @@
     ViewData["Title"] = "Create";
     List<TeamMember> members = (List<TeamMember>)TempData["members"];
     int userId = (int)TempData["userId"];
-    TempData["userId"] = userId;
+    TempData["ID"] = userId;
+    TempData["tmp"] = userId;
 }
 
 <div class="row">
@@ -54,7 +55,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-userId="@userId">Back to List</a>
+    <a asp-action="Index" asp-route-userId="@TempData["tmp"]">Back to List</a>  @* "@userId">Back to List</a> *@
 </div>
 
 @section Scripts {

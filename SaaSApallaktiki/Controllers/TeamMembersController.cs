@@ -124,7 +124,7 @@ namespace SaaSApallaktiki.Controllers
             /*ViewData["TeamId"] = new SelectList(_context.Teams, "TeamId", "TeamId", teamMember.TeamId);
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", teamMember.UserId);
             return View(teamMember);*/
-            return RedirectToAction("Create", new { userId = TempData["userId"], teamId = teamMember.TeamId });
+            return RedirectToAction("Create", new { userId = TempData["ID"], teamId = teamMember.TeamId });
         }
 
         // GET: TeamMembers/Edit/5
