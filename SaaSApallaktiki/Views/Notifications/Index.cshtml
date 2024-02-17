@@ -1,0 +1,130 @@
+﻿@model IEnumerable<SaaSApallaktiki.Models.Notification>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Type@* @Html.DisplayNameFor(model => model.NotificationType) *@
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.SourceId)
+            </th> *@
+            @* <th>
+                @Html.DisplayNameFor(model => model.IsRead)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.NotificationDate)
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @if(item.NotificationType == 1)
+                    {
+                        <div>
+                            Unread message
+                        </div>
+                    }
+                    else if (item.NotificationType == 2)
+                    {
+                        <div>
+                            Someone added you to their contacts
+                        </div>
+                    }
+                    else if (item.NotificationType == 3)
+                    {
+                        <div>
+                            Someone added you to a team
+                        </div>
+                    }
+                    else if (item.NotificationType == 4)
+                    {
+                        <div>
+                            New post uploaded
+                        </div>
+                    }
+                    else if (item.NotificationType == 5)
+                    {
+                        <div>
+                            New messages in a team conversation
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            Something went wrong with this notification
+                        </div>
+                    }
+
+                @* @Html.DisplayFor(modelItem => item.NotificationType) *@
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.SourceId)
+            </td> *@
+            @* <td>
+                @Html.DisplayFor(modelItem => item.IsRead)
+            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.NotificationDate)
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.User.UserId)
+            </td> *@
+            <td>
+                    @* <a asp-action="Details" asp-route-userId="@item.UserId" asp-route-id="@item.NotificationId">Details</a> *@
+                    @if (item.NotificationType == 1)
+                    {
+                        @* <a asp-action="Details" asp-route-userId="@item.UserId" asp-route-id="@item.NotificationId">Go to conversation</a> *@
+                        <a asp-controller="Messages" asp-action="Create" asp-route-userId="@item.UserId" asp-route-otherUserId="@item.SourceId">Go to conversation</a>
+                    }
+                    else if (item.NotificationType == 2)
+                    {
+                        <a asp-controller="FriendRequests" asp-action="Index" asp-route-userId="@item.UserId">Go to friends list</a>
+                        @* <a asp-action="Details" asp-route-userId="@item.UserId" asp-route-id="@item.NotificationId">Go to friends list</a> *@
+                    }
+                    else if (item.NotificationType == 3)
+                    {
+                        <a asp-controller="TeamMembers" asp-action="Index" asp-route-userId="@item.UserId">Go to teams list</a>
+                        @* <a asp-action="Details" asp-route-userId="@item.UserId" asp-route-id="@item.NotificationId">Go to teams list</a> *@
+                    }
+                    else if (item.NotificationType == 4)
+                    {
+                        <a asp-controller="Posts" asp-action="Index" asp-route-userId="@item.UserId" >Go to posts list</a>
+                        @* <a asp-action="Details" asp-route-userId="@item.UserId" asp-route-id="@item.NotificationId">Go to posts list</a> *@
+                    }
+                    else if (item.NotificationType == 5)
+                    {
+                        <a asp-controller="Messages" asp-action="Create" asp-route-userId="@item.UserId" asp-route-teamId="@item.SourceId">Go to the team conversation</a>
+                    }
+                    else
+                    {
+                        <div>
+                            Something went wrong with this notification
+                        </div>
+                    }
+                @* <a asp-action="Edit" asp-route-id="@item.NotificationId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.NotificationId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.NotificationId">Delete</a> *@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a asp-controller="Home" asp-action="MainMenu" asp-route-userId="@TempData["userId"]">Back to Main Menu</a>
+</div>

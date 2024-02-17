@@ -1,0 +1,52 @@
+﻿@model SaaSApallaktiki.Models.User
+
+@{
+    ViewData["Title"] = "MainMenu";
+}
+<div class="text-center">
+    <h1 class="display-4">Main Menu</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <h4>
+                About me
+            </h4>
+            @* <hr /> *@
+            <a asp-controller="Hobbies" asp-action="Index" asp-route-userId="@Model.UserId" type="button" class="btn btn-primary">Hobbies</a>
+            <a asp-controller="Courses" asp-action="Index" asp-route-userId="@Model.UserId" type="button" class="btn btn-info">Courses</a>
+            @* asp-action="ShowMyFriends" *@<a asp-controller="FriendRequests" asp-action="Index" asp-route-userId="@Model.UserId" type="button" class="btn btn-primary">My friends</a>
+            <a asp-controller="TeamMembers" asp-action="Index" asp-route-userId="@Model.UserId" type="button" class="btn btn-info">Teams</a>
+        </div>
+        <div class="col-md-4 offset-4">
+            <h4>
+                Actions
+            </h4>
+            @* <hr /> *@
+            <a asp-controller="Users" asp-action="Index" asp-route-userId="@Model.UserId" type="button" class="btn btn-primary">Show all users</a> @* asp-action="ShowUsers" *@
+            <a asp-controller="Posts" asp-action="Index" asp-route-userId="@Model.UserId" type="button" class="btn btn-info">Show Posts</a>
+        </div>
+    </div>
+</div>
+
+@* <div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+    </dl>
+</div> *@
+@* <div>
+    <a asp-action="Edit" asp-route-id="@Model?.UserId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div> *@

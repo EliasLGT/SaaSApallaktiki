@@ -1,0 +1,96 @@
+﻿@model SaaSApallaktiki.Models.Message
+
+@{
+    ViewData["Title"] = "Create";
+    List<Message> li = TempData["list"] as List<Message>;
+    bool DM = (bool)TempData["DM"];
+    TempData["dm"] = DM;
+}
+
+<h1>Conversation</h1>
+
+<h4>With @TempData["otherUsername"]</h4>
+<hr />
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Sender @* @Html.DisplayNameFor(model => model.Sender) *@
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Message
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in li)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sender.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SentDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MessageContent)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="SenderId" class="control-label"></label>
+                <input asp-for="SenderId" class="form-control" /> @* <select asp-for="SenderId" class ="form-control" asp-items="ViewBag.SenderId"></select> *@
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="RecipientId" class="control-label"></label>
+                <input asp-for="RecipientId" class="form-control" />
+                <span asp-validation-for="RecipientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Messsage</label>@* <label asp-for="MessageContent" class="control-label"></label> *@
+                <input asp-for="MessageContent" class="form-control" />
+                <span asp-validation-for="MessageContent" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="SentDate" class="control-label"></label>
+                <input asp-for="SentDate" class="form-control" />
+                <span asp-validation-for="SentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Send" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (DM)
+{
+    <div>
+        <a asp-controller="FriendRequests" asp-action="Index" asp-route-userId="@TempData["userId"]">Back to List</a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-controller="TeamMembers" asp-action="Index" asp-route-userId="@TempData["userId"]">Back to List</a>
+    </div>
+}
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

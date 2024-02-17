@@ -1,0 +1,131 @@
+﻿@model IEnumerable<SaaSApallaktiki.Models.Post>
+
+@{
+    ViewData["Title"] = "Index";
+    List<Hobby> hobbies = TempData["hobbies"] as List<Hobby>;
+    List<Course> courses = TempData["courses"] as List<Course>;
+    List<User> users = TempData["users"] as List<User>;
+}
+
+@if (TempData["filterBy"] == null)
+{
+    <h1>All the Posts</h1>
+}
+else
+{
+    <h1>Posts relevant to "@TempData["filterBy"]"</h1>
+}
+
+<p>
+    <a asp-action="Index" asp-route-userId="@TempData["userId"]">Show all posts</a>
+</p>
+
+<div class="row">
+    Filter posts by Hobbies
+    @foreach (var hobby in hobbies)
+    {
+        <div class="col-sm-auto">
+            <a asp-controller="Posts" asp-action="Index" asp-route-filterBy="@hobby.HobbyName" asp-route-userId="@TempData["userId"]">@hobby.HobbyName</a>
+            @* mallon na ftiajo global metabliti gia na diabazo to tempdata["userId"] polles fores *@
+        </div>
+    }
+    @* <select id="selector" ></select>
+    <a asp-controller="Users" asp-action="Filter" id="anchorr" onclick="TransferValue('selector')" asp-route-categoryId="" class="btn btn-primary">Search</a> *@
+</div>
+<div class="row">
+    Filter posts by Courses
+    @foreach (var course in courses)
+    {
+        <div class="col-sm-auto">
+            <a asp-controller="Posts" asp-action="Index" asp-route-filterBy="@course.CourseName" asp-route-userId="@TempData["userId"]">@course.CourseName</a>
+            @* mallon na ftiajo global metabliti gia na diabazo to tempdata["userId"] polles fores *@
+        </div>
+    }
+</div>
+<div class="row">
+    Filter posts by Creator
+    @foreach (var user in users)
+    {
+        <div class="col-sm-auto">
+            <a asp-controller="Posts" asp-action="Index" asp-route-filterBy="@user.Username" asp-route-userId="@TempData["userId"]">@user.Username</a>
+            @* mallon na ftiajo global metabliti gia na diabazo to tempdata["userId"] polles fores *@
+        </div>
+    }
+</div>
+<hr />
+
+@* <h1>Index</h1>*@
+
+<p>
+    <a asp-action="Create" asp-route-userId="@TempData["userId"]" asp-route-aboutA="hobby">Make a new post related to a hobby</a> | 
+    <a asp-action="Create" asp-route-userId="@TempData["userId"]" asp-route-aboutA="course">Make a new post related to a course</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Creator@* @Html.DisplayNameFor(model => model.User) *@
+            </th>
+            <th>
+                Date@* @Html.DisplayNameFor(model => model.PostDate) *@
+            </th>
+            <th>
+                Topic
+            </th>
+            <th>
+                Title@* @Html.DisplayNameFor(model => model.PostTitle) *@
+            </th>
+            <th>
+                Content@* @Html.DisplayNameFor(model => model.PostContent) *@
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hobby)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostDate)
+                </td>
+                @if(item.CourseId == null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hobby.HobbyName)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.CourseName)
+                    </td>
+                }
+            <td>
+                @Html.DisplayFor(modelItem => item.PostTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostContent)
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.Course.CourseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hobby.HobbyId)
+            </td> *@
+            @* <td>
+                <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+            </td> *@
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,136 @@
+﻿@model IEnumerable<SaaSApallaktiki.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+    List<Hobby> hobbies = TempData["hobbies"] as List<Hobby>;
+    List<Course> courses = TempData["courses"] as List<Course>;
+}
+@if(TempData["filterBy"] == null)
+{
+    <h1>All the Users</h1>
+}
+else
+{
+    <h1>Users relevant to "@TempData["filterBy"]"</h1>
+    @* if(TempData["type"] == "course")
+    {
+        <h1>Users that attend the course "@TempData["filterBy"]"</h1>
+    }
+    else
+    {
+        <h1>Users that are intereste</h1>
+    } *@
+}
+
+<p>
+    <a asp-action="Index" asp-route-userId="@TempData["userId"]">Show all users</a>
+</p>
+
+<div class="row">
+    Filter users by Hobbies
+    @foreach (var hobby in hobbies)
+    {
+        <div class="col-sm-auto">
+            <a asp-controller="Users" asp-action="Index" asp-route-filterBy="@hobby.HobbyName" asp-route-userId="@TempData["userId"]">@hobby.HobbyName</a>
+            @* mallon na ftiajo global metabliti gia na diabazo to tempdata["userId"] polles fores *@
+        </div>
+    }
+    @* <select id="selector" ></select>
+    <a asp-controller="Users" asp-action="Filter" id="anchorr" onclick="TransferValue('selector')" asp-route-categoryId="" class="btn btn-primary">Search</a> *@
+</div>
+<div class="row">
+    Filter users by Courses
+    @foreach (var course in courses)
+    {
+        <div class="col-sm-auto">
+            <a asp-controller="Users" asp-action="Index" asp-route-filterBy="@course.CourseName" asp-route-userId="@TempData["userId"]">@course.CourseName</a>
+            @* mallon na ftiajo global metabliti gia na diabazo to tempdata["userId"] polles fores *@
+        </div>
+    }
+</div>
+<hr/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                Friendship status
+                @* @Html.DisplayNameFor(model => model.Password) *@
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            @if (item.UserId != (int)TempData["userId"])
+            {
+                <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                        @if ((item.FriendRequestReceivers.Any(m => m.SenderId == (int)TempData["userId"])) || (item.FriendRequestSenders.Any(m => m.ReceiverId == (int)TempData["userId"])))
+                        {
+                            <div style="color:green">Contact</div>
+                }else{
+                            <div style="color:red">Not a contact</div>
+                }
+            </td>
+            <td>
+                        @if ((item.FriendRequestReceivers.Any(m => m.SenderId == (int)TempData["userId"])) || (item.FriendRequestSenders.Any(m => m.ReceiverId == (int)TempData["userId"])))
+                        {
+                            <a asp-controller="FriendRequests" asp-action="Delete" asp-route-userId="@TempData["userId"]" asp-route-otherUserId="@item.UserId">Remove contact</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="FriendRequests" asp-action="Create" asp-route-userId="@TempData["userId"]" asp-route-otherUserId="@item.UserId">Add contact</a>
+                        }
+            </td>
+            @* <td>
+                    @{
+                        var friends = TempData["friends"] as List<User>;
+                        if (friends.Contains(item))
+                        {
+                            <div style="color:green">Friend</div>
+                        }else{
+                            <div style="color:red">Not a friend</div>
+                        }
+                    }
+            </td>
+            <td>
+                    @{
+                        //var friends = TempData["friends"] as List<User>;
+                        if (friends.Contains(item))
+                        {
+                            <a asp-controller="FriendsRequests" asp-action="Delete" asp-route-userId="@TempData["userId"]" asp-route-otherUserId="@item.UserId">Remove friend</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="FriendsRequests" asp-action="Create" asp-route-userId="@TempData["userId"]" asp-route-otherUserId="@item.UserId">Remove friend</a>
+                        }
+                    }
+            </td> *@
+            @* <td>
+                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+            </td> *@
+        </tr>
+            }
+}
+    </tbody>
+</table>
+<a asp-controller="Home" asp-action="MainMenu" asp-route-userId="@TempData["userId"]">Back to main menu</a>
+@* <script>
+    function TransferValue(Id) {
+        Id = String(Id)
+        var selec = document.getElementById(Id);
+        var anc = document.getElementById('anchorr');
+        anc.setAttribute()
+        if (textBox.disabled) {
+            textBox.removeAttribute("disabled");
+        }
+    }
+</script> *@

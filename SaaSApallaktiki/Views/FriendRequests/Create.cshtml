@@ -1,0 +1,47 @@
+﻿@model SaaSApallaktiki.Models.FriendRequest
+
+@{
+    ViewData["Title"] = "Create";
+    DateTime dt = DateTime.Now;
+}
+
+<h1>Create</h1>
+
+<h4>Are you sure you want to add this user in your contacts?</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="SenderId" class="control-label"></label>
+                <input asp-for="SenderId" class="form-control" value="@ViewData["SenderId"]" />@* <select asp-for="SenderId" class ="form-control" asp-items="ViewBag.SenderId"></select> *@
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="ReceiverId" class="control-label"></label>
+                <input asp-for="ReceiverId" class="form-control" value="@ViewData["ReceiverId"]" />@* <select asp-for="ReceiverId" class ="form-control" asp-items="ViewBag.ReceiverId"></select> *@
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="RequestDate" class="control-label"></label>
+                <input asp-for="RequestDate" class="form-control" value="@dt" />
+                <span asp-validation-for="RequestDate" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" value="0" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="I am sure" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Users" asp-action="Index" asp-route-userId="@TempData["userId"]" >I am not sure</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SaaSApallaktiki.Models.TeamMember>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>The teams in which you participate</h1>
+
+<p>
+    <a asp-controller="Teams" asp-action="Create" asp-route-userId="@TempData["userId"]" >Create New Team</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @* <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th> *@
+            <th>
+                Team's Name @* @Html.DisplayNameFor(model => model.Team) *@
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.Team.TeamName)
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.User.UserId)
+            </td> *@
+            @* <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td> *@
+            <td>
+                <a asp-controller="Messages" asp-action="Create" asp-route-userId="@item.UserId" asp-route-teamId="@item.TeamId">Chat</a>
+                <a asp-controller="TeamMembers" asp-action="Create" asp-route-userId="@item.UserId"  asp-route-teamId="@item.TeamId">Μembers</a>@* <a asp-controller="TeamMembers" asp-action="Create" asp-route-userId="@item.UserId" asp-route-teamId="@item.TeamId">Add someone</a> *@
+                <a asp-controller="TeamMembers" asp-action="Delete" asp-route-userId="@item.UserId" asp-route-teamId="@item.TeamId">Leave team</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a asp-controller="Home" asp-action="MainMenu" asp-route-userId="@TempData["userId"]">Back to Main Menu</a>
+</div>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<SaaSApallaktiki.Models.Message>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sender)
+            </th>
+            <th>
+                Date @* @Html.DisplayNameFor(model => model.SentDate) *@
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.RecipientId)
+            </th> *@
+            <th>
+                Message
+                @* @Html.DisplayNameFor(model => model.MessageContent) *@
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SentDate)
+                </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.RecipientId)
+            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.MessageContent)
+            </td>
+            @* <td>
+                <a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
+            </td> *@
+        </tr>
+}
+    </tbody>
+</table>
+<a class="btn btn-primary" asp-controller="Messages" asp-action="Create" asp-route-userId="@TempData["userId"]" asp-route-otherId="@TempData["other"]">Send Message</a>
+<a asp-controller="Home" asp-action="MainMenu" asp-route-userId="@TempData["userId"]">Back to Main Menu</a>

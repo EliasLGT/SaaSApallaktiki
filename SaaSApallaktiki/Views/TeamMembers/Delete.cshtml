@@ -1,0 +1,40 @@
+﻿@model SaaSApallaktiki.Models.TeamMember
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to leave this team?@* delete this? *@</h3>
+<div>
+    <h4>TeamMember</h4>
+    <hr />
+    <dl class="row">
+        @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd> *@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Team)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Team.TeamName)
+        </dd>
+        @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.User.UserId)
+        </dd> *@
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="TeamId" />
+        <input type="hidden" asp-for="UserId" />
+        <input type="submit" value="Yes" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-route-userId="@Model.UserId">Back to List</a>
+    </form>
+</div>

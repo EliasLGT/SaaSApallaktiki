@@ -1,0 +1,81 @@
+﻿@model IEnumerable<SaaSApallaktiki.Models.FriendRequest>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Your friends</h1>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.RequestDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Receiver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sender)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @if(item.SenderId == (int)TempData["userId"])
+                    {
+                        @Html.DisplayFor(modelItem => item.Receiver.Username)
+                    }else if (item.ReceiverId == (int)TempData["userId"])
+                    {
+                        @Html.DisplayFor(modelItem => item.Sender.Username)
+                    }else{
+                        <div>Error</div>
+                    }
+                </td>
+                <td>
+                    @if (item.SenderId == (int)TempData["userId"])
+                    {
+                        <a asp-controller="Messages" asp-action="Create" asp-route-userId="@TempData["userId"]" asp-route-otherUserId="@item.ReceiverId">Send message</a>
+                    }
+                    else if (item.ReceiverId == (int)TempData["userId"])
+                    {
+                        <a asp-controller="Messages" asp-action="Create" asp-route-userId="@TempData["userId"]" asp-route-otherUserId="@item.SenderId">Send message</a>
+                    }
+                    else
+                    {
+                        <div>Error</div>
+                    }
+                </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.RequestDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Receiver.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sender.UserId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RequestId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RequestId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RequestId">Delete</a>
+            </td> *@
+        </tr>
+}
+    </tbody>
+</table>
